@@ -273,13 +273,17 @@ export const formRadioCheckMixin = extend({
       },
       on: {
         change: this.handleChange,
-        // Necessary because in COMPAT build the input handler is broken.
+        // Necessary for checkbox because in COMPAT build the input handler is broken.
         input: this.handleChange,
         ...(isBtnMode ? { focus: this.handleFocus, blur: this.handleFocus } : {})
       },
       key: 'input',
       ref: 'input'
     })
+    if ($input.props.type === 'radio') {
+      // Dirty, but necessary hack to prevent radio inputs throwing 'el[assignKey] is undefined'.
+      $input.props['onModelCompat:input'] = val => this.$emit(EVENT_NAME_CHANGE, val)
+    }
 
     if (isBtnMode) {
       let $button = h('label', { class: this.buttonClasses }, [$input, $content])
