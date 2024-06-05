@@ -127,8 +127,7 @@ export const BFormSelect = /*#__PURE__*/ extend({
             key
           })
     })
-
-    return h(
+    const $select = h(
       'select',
       {
         class: this.inputClass,
@@ -143,11 +142,15 @@ export const BFormSelect = /*#__PURE__*/ extend({
           'aria-required': required ? 'true' : null,
           'aria-invalid': this.computedAriaInvalid
         },
-        on: { change: this.onChange },
+        on: {
+          change: this.onChange
+        },
         directives: [{ name: 'model', value }],
         ref: 'input'
       },
       [this.normalizeSlot(SLOT_NAME_FIRST), $options, this.normalizeSlot()]
     )
+    $select.props['onModelCompat:input'] = val => this.$emit(EVENT_NAME_CHANGE, val)
+    return $select
   }
 })
