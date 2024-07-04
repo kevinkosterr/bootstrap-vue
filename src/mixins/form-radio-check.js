@@ -280,7 +280,7 @@ export const formRadioCheckMixin = extend({
       key: 'input',
       ref: 'input'
     })
-    if ($input.props.type === 'radio') {
+    if (['radio', 'checkbox'].includes($input.props.type)) {
       // Dirty, but necessary hack to prevent radio inputs throwing 'el[assignKey] is undefined'.
       $input.props['onModelCompat:input'] = val => this.$emit(EVENT_NAME_CHANGE, val)
     }
